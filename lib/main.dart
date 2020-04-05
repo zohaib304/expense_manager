@@ -6,6 +6,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MyHomePage(),
     );
   }
@@ -16,9 +17,16 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Flutter App")),
-      body: Center(
-        child: Text("Hello"),
-      ),
+      body: Column(children: <Widget>[
+        Container(
+          width: double.infinity,
+          child: Card(
+            color: Colors.blue[100],
+            child: Text("Welcome to Expense manager"),
+            elevation: 5,
+          ),
+        )
+      ],)
     );
   }
 }
