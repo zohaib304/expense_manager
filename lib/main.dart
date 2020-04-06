@@ -21,6 +21,11 @@ class MyHomePage extends StatelessWidget {
     Transaction(id: 't2', title: 'Pent', amount: 1000.0, date: DateTime.now())
   ];
 
+  // String titleInput;
+  // String amountInput;
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +38,32 @@ class MyHomePage extends StatelessWidget {
                 color: Colors.blue[100],
                 child: Text("Welcome to Expense manager"),
                 elevation: 5,
+              ),
+            ),
+            Card(
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Title'),
+                      controller: titleController,
+                      // onChanged: (val) => titleInput = val,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Amount'),
+                      controller: amountController,
+                      // onChanged: (val) => amountInput = val,
+                    ),
+                    FlatButton(
+                      child: Text('Add'),
+                      onPressed: () {
+                        print(titleController.text);
+                        print(amountController.text);
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
             Column(
@@ -72,8 +103,7 @@ class MyHomePage extends StatelessWidget {
                           ),
                           Text(
                             DateFormat.yMMMd().format(tx.date),
-                            style:
-                                TextStyle(fontSize: 10, color: Colors.grey),
+                            style: TextStyle(fontSize: 10, color: Colors.grey),
                           ),
                         ],
                       )
