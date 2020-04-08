@@ -16,27 +16,24 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
 
-  // String titleInput;
-  // String amountInput;
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Flutter App")),
-        body: Column(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue[100],
-                child: Text("Welcome to Expense manager"),
-                elevation: 5,
+        body: SingleChildScrollView (
+                  child: Column(
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                child: Card(
+                  color: Colors.blue[100],
+                  child: Text("Welcome to Expense manager"),
+                  elevation: 5,
+                ),
               ),
-            ),
-            UserTransactions()
-          ],
+              UserTransactions()
+            ],
+          ),
         ));
   }
 }
