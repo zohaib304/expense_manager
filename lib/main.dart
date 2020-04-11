@@ -1,8 +1,9 @@
-import './widgets/new_transactions.dart';
-
-import './widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
+
 import './models/transaction.dart';
+import './widgets/chart.dart';
+import './widgets/new_transactions.dart';
+import './widgets/transaction_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,18 +17,15 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         fontFamily: 'OpenSans',
         textTheme: ThemeData.dark().textTheme.copyWith(
-          title: TextStyle(
-            fontFamily: 'Quicksand',
-            fontSize: 18
-          ),
-        ),
+              title: TextStyle(fontFamily: 'Quicksand', fontSize: 18),
+            ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.dark().textTheme.copyWith(
-            title: TextStyle(
-              fontSize: 20,
-              fontFamily: 'Quicksand',
-            ),
-          ),
+                title: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'Quicksand',
+                ),
+              ),
         ),
       ),
       home: MyHomePage(),
@@ -41,8 +39,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransaction = [
-  ];
+  final List<Transaction> _userTransaction = [];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransaction.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -87,14 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue[100],
-                child: Text("Welcome to Expense manager"),
-                elevation: 5,
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(_userTransaction),
           ],
         ),
