@@ -92,6 +92,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final islandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
       title: Text(
         "Personal Expense Manager",
@@ -103,26 +105,43 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ],
     );
+    final txWidgetList = Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.7,
+                    child:
+                        TransactionList(_userTransaction, _deleteTransaction),
+                  );
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Show Chart"),
-                Switch(
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                )
-              ],
-            ),
-            _showChart
+            if (islandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Show Chart"),
+                  Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  )
+                ],
+              ),
+              if (!islandscape) Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.3,
+                    child: Chart(_recentTransactions),
+                  ),
+              if(!islandscape) txWidgetList,
+              if(islandscape)_showChart
                 ? Container(
                     height: (MediaQuery.of(context).size.height -
                             appBar.preferredSize.height -
@@ -130,13 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         0.7,
                     child: Chart(_recentTransactions),
                   )
-                : Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appBar.preferredSize.height -
-                            MediaQuery.of(context).padding.top) *
-                        0.7,
-                    child:
-                        TransactionList(_userTransaction, _deleteTransaction)),
+                : txWidgetList,
           ],
         ),
       ),
